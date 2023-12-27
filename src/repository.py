@@ -8,17 +8,17 @@ class BaseRepository():
     def __init__(self, model):
         self.model = model
 
-    def create(self, data: BaseModel):
-        db_data = self.model(**data.model_dump())
+    def create(self, create_dto: BaseModel):
+        db_data = self.model(**create_dto.model_dump())
         self.session.add(db_data)
         self.session.commit()
         self.session.refresh(db_data)
 
         return db_data
 
-    def update(self, id, data: BaseModel):
+    def update(self, id, update_dto: BaseModel):
         self.session.query(self.model).filter_by(
-            id=id).update(data.model_dump())
+            id=id).update(update_dto.model_dump())
         self.session.commit()
 
     def delete(self, id):
